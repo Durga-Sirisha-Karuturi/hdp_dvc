@@ -1,0 +1,81 @@
+schema: '2.0'
+stages:
+  data_collection:
+    cmd: python src/data_collection.py
+    deps:
+    - path: src/data_collection.py
+      hash: md5
+      md5: fc839a2bcc311a33310a6921366a1f41
+      size: 259
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: 1a5580f9c30c6630e8855d4b4fcf3890.dir
+      size: 38996
+      nfiles: 1
+  data_pre:
+    cmd: python src/data_prep.py
+    deps:
+    - path: data/raw/data.csv
+      hash: md5
+      md5: a475aa906655f6f83fadbd9a421873ae
+      size: 38996
+    - path: src/data_prep.py
+      hash: md5
+      md5: cbac24ee0ddaf8a887c7dc9fc4daa26b
+      size: 1481
+    outs:
+    - path: data/processed/X_test.csv
+      hash: md5
+      md5: 2793a7e9f531f1d0709dc5e611c3c4f4
+      size: 78749
+    - path: data/processed/X_train.csv
+      hash: md5
+      md5: 93c338b4c1f74672020200bc591792c0
+      size: 183162
+    - path: data/processed/y_test.csv
+      hash: md5
+      md5: 74c35810f49b59a314208e096f73af1a
+      size: 932
+    - path: data/processed/y_train.csv
+      hash: md5
+      md5: 39a25d4e5f42e91a9a165f51bef01c3d
+      size: 2159
+  model_buid:
+    cmd: python src/model_build.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: a98920545e32ec823b2cbf95f15ddd12.dir
+      size: 265056
+      nfiles: 5
+    - path: src/model_build.py
+      hash: md5
+      md5: 77b51a0e268f3814d3ff50f03a3ee42c
+      size: 1136
+    outs:
+    - path: models/model.pkl
+      hash: md5
+      md5: 06412643678e763aa377f23273358ce0
+      size: 961
+  model_eval:
+    cmd: python src/model_eval.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: a98920545e32ec823b2cbf95f15ddd12.dir
+      size: 265056
+      nfiles: 5
+    - path: models/model.pkl
+      hash: md5
+      md5: 06412643678e763aa377f23273358ce0
+      size: 961
+    - path: src/model_eval.py
+      hash: md5
+      md5: a2d7f7c72bc3e86284f40c0d233f9221
+      size: 907
+    outs:
+    - path: metrics/metrics.csv
+      hash: md5
+      md5: 8f7e40201ba81dcedc4cde8f5db1e008
+      size: 113
